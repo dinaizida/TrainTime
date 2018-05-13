@@ -22,14 +22,70 @@
 </head>
 
 <body>
-    <div class="poster container" id="wrapper">
+<div class="poster container" id="wrapper">
         <header class="page-header jumbotron">
             <h1 id="titleText">Anytime is a Train Time</h1>
         </header>
-
-       
+    
+    <div class="row card-row">
+            <div class="col -xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card border-dark">
+                    <div class="card-heading cardHeader">
+                        <h4 class="card-title">Current Train Schedule</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-striped table-responsive-sm table-responsive-xs table-responsive-md" id="train-schedule">
+                            <thead id = "thead">
+                                <tr>
+                                    <th>Train Name</th>
+                                    <th>Destination</th>
+                                    <th>Frequency</th>
+                                    <th>Next Arrival</th>
+                                    <th>Minutes Away</th>
+                                </tr>
+                            </thead>
+                            <tbody id="new-train">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
     </div>
-
+    <div class="row card-row"><br></div>
+    <div class="row card-row" id = "formInput">
+            <div class="col -xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card border-dark">
+                    <div class="card-heading cardHeader ">
+                        <h4 class="card-title">Add Train</h4>
+                    </div>
+                    <div class="card-body">
+                        <form  class="bmd-form-group" >
+                            <!-- <div class="bmd-form-group"> -->
+                                <label for="train-name-input">Train Name</label>
+                                <input class="form-control form-control-sm" id="train-name-input" type="text"/>
+                            <!-- </div> -->
+                            <!-- <div class="bmd-form-group"> -->
+                                <label for="destination-input">Destination</label>
+                                <input class="form-control form-control-sm" id="destination-input" type="text"/>
+                            <!-- </div>
+                            <div class="bmd-form-group"> -->
+                                <label for="train-time-input">First Train Time (HH:mm - military time)</label>
+                                <input class="form-control form-control-sm" id="train-time-input" type="text"/>
+                            <!-- </div>
+                            <div class="bmd-form-group"> -->
+                                <label for="frequency-input">Frequency (min)</label>
+                                <input class="form-control form-control-sm" id="frequency-input" type="text"/>
+                            <!-- </div> -->
+    
+                            <button class="btn btn-raised btn-success" id="add-train-btn" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+    </div>
+       
+</div>
     <div id="footernav" class="navbar navbar-default fixed-bottom">
         <div class="container">
             <div class="copy">
