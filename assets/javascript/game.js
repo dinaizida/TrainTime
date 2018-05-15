@@ -13,6 +13,7 @@ $("document").ready(function() {
 
     // GLOBAL var - to count trains entered into the database
     var i=0;
+    var getKey = "";
 
     // refresh page every minute to show updated schedule
     setInterval(function() {
@@ -31,19 +32,18 @@ $("document").ready(function() {
 
     updateCurrentTime();
     setInterval(updateCurrentTime, 1000);
+
     /// remove train from page and firebase
     $(document).on("click", ".delete", function(event){
         event.preventDefault();
-      
-       var currentIndex = $(this).attr("data-index");
-       $(this).remove();
-       console.log(this);
-       $("#item_" + currentIndex).remove();
-       console.log("currentIndex - " +currentIndex);
+        $(this).closest ('tr').remove();
+         console.log("this" + this );
+        getKey = $(this).parent().attr('id');
+        database.ref().child(getKey).remove();
 
-    //    removeTrain();
+       
+
     });
-     
      
 
     //submit button
@@ -52,7 +52,6 @@ $("document").ready(function() {
         
         //grab the user input
        
-        
         var newi = i;
         var newtrainName = $("#train-name-input").val().trim();
         var newdestination = $("#destination-input").val().trim();
@@ -85,13 +84,14 @@ $("document").ready(function() {
         $("#train-time-input").val("");
         $("#frequency-input").val("");
     });
+
     //create a firebase event for adding train to database and a row in the HTML table
 
     database.ref().on("child_added", function(childSnapshot, prevChildKey) {
         i++;
         
         console.log("prevChildKey   " +prevChildKey);
-        console.log(childSnapshot.val());
+        console.log("childSnapshot -- " + childSnapshot.val());
         
         var newi = childSnapshot.val().idata;
         var newtrainName = childSnapshot.val().trainName;
@@ -132,13 +132,10 @@ $("document").ready(function() {
     // add train data to the HTML table
         //button to delete train
      var btn = $("<button class = 'delete btn btn-raised btn-sm'>" + i + "</button>");
-     btn.attr("data-index", i);
- 
-     console.log("prevChildKey   " +prevChildKey);
-
+     
      // render all database informaiton into the page table
-      var tr = $("<tr>");
-      tr.attr("id", "item_" +i);
+      var tr = $("<tr id=" + "'" + prevChildKey + "'" + ">");
+    //   tr.attr("id", prevChildKey);
       tr.append(btn);
         tr.append("<td>" + newtrainName +
             "</td><td>" + newdestination +
@@ -150,18 +147,8 @@ $("document").ready(function() {
         $("#new-train").append(tr);
 
     });
-   
-    // function removeTrain(){
-    //     // database.ref().on("child_added", function(childSnapshot, prevChildKey))
-    //     database.ref().on("child_removed", function(idata){
-        
-    //         deleteTrain(newTrain, idata.key);
-        
-    //     });
-    // }
-    
+
 
    
-
-
+   
 });
