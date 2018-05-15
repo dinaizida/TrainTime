@@ -11,32 +11,49 @@ $("document").ready(function() {
     };
     firebase.initializeApp(config);
 
-    //  // refresh page every minute to show updated schedule
-      setInterval(function() {
+    // GLOBAL var - to count trains entered into the database
+    var i=0;
+
+    // refresh page every minute to show updated schedule
+    setInterval(function() {
         location.reload(true); }, 60000);
 
-    var currentTime;
-
-    //current time
+    //current time for updating page and all calculations
     var currentTime = moment();
 
     function updateCurrentTime() {
         currentTime = moment().format("HH:mm:ss");
        
         $("#currentTime").html("" + currentTime);
-    }
+    };
 
     var database = firebase.database();
 
     updateCurrentTime();
     setInterval(updateCurrentTime, 1000);
-    
+    /// remove train from page and firebase
+    $(document).on("click", ".delete", function(event){
+        event.preventDefault();
+      
+       var currentIndex = $(this).attr("data-index");
+       $(this).remove();
+       console.log(this);
+       $("#item_" + currentIndex).remove();
+       console.log("currentIndex - " +currentIndex);
+
+    //    removeTrain();
+    });
+     
+     
 
     //submit button
     $("#add-train-btn").on("click", function(event) {
         event.preventDefault();
-
+        
         //grab the user input
+       
+        
+        var newi = i;
         var newtrainName = $("#train-name-input").val().trim();
         var newdestination = $("#destination-input").val().trim();
         var newtrainTime = $("#train-time-input").val().trim();
@@ -44,6 +61,7 @@ $("document").ready(function() {
 
         //create a local temporary object for holding form data
         var newTrain = {
+            idata: newi,
             trainName: newtrainName,
             destination: newdestination,
             trainTime: newtrainTime,
@@ -52,6 +70,8 @@ $("document").ready(function() {
         // upload train info into the database
 
         database.ref().push(newTrain);
+        
+        console.log(newTrain.newi);
         console.log(newTrain.newtrainName);
         console.log(newTrain.newdestination);
         console.log(newTrain.newtrainTime);
@@ -68,13 +88,19 @@ $("document").ready(function() {
     //create a firebase event for adding train to database and a row in the HTML table
 
     database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-
+        i++;
+        
+        console.log("prevChildKey   " +prevChildKey);
         console.log(childSnapshot.val());
+        
+        var newi = childSnapshot.val().idata;
         var newtrainName = childSnapshot.val().trainName;
         var newdestination = childSnapshot.val().destination;
         var newtrainTime = childSnapshot.val().trainTime;
         var newfrequency = childSnapshot.val().frequency;
-
+        
+        // console.log(newdeleteBtn);
+        console.log(newi);
         console.log(newtrainName);
         console.log(newdestination);
         console.log(newtrainTime);
@@ -94,25 +120,48 @@ $("document").ready(function() {
         var tRemainder = diffTime % newfrequency;
         console.log(tRemainder);
 
-        // Minute Until Train
+        // Minute Until Train calculation
         var tMinutesTillTrain = newfrequency - tRemainder;
         console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
-        // Next Train
+        // Next Train time calculation
         var nextTrain = moment().add(tMinutesTillTrain, "minutes");
         newtrainTime = moment(nextTrain).format("HH:mm:ss");
         console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm:ss"));
 
-        // add train data to the HTML table 
+    // add train data to the HTML table
+        //button to delete train
+     var btn = $("<button class = 'delete btn btn-raised btn-sm'>" + i + "</button>");
+     btn.attr("data-index", i);
+ 
+     console.log("prevChildKey   " +prevChildKey);
 
-        $("#new-train").append("<tr><td>" + newtrainName +
+     // render all database informaiton into the page table
+      var tr = $("<tr>");
+      tr.attr("id", "item_" +i);
+      tr.append(btn);
+        tr.append("<td>" + newtrainName +
             "</td><td>" + newdestination +
             "</td><td>" + newfrequency +
             "</td><td>" + newtrainTime +
             "</td><td>" + tMinutesTillTrain +
-            "</td><tr>"
+            "</td>"
         )
+        $("#new-train").append(tr);
 
     });
    
+    // function removeTrain(){
+    //     // database.ref().on("child_added", function(childSnapshot, prevChildKey))
+    //     database.ref().on("child_removed", function(idata){
+        
+    //         deleteTrain(newTrain, idata.key);
+        
+    //     });
+    // }
+    
+
+   
+
+
 });
