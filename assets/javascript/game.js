@@ -22,7 +22,7 @@ $("document").ready(function() {
 
     function updateCurrentTime() {
         currentTime = moment().format("HH:mm:ss");
-        console.log("current time - " + currentTime);
+       
         $("#currentTime").html("" + currentTime);
     }
 
@@ -52,12 +52,12 @@ $("document").ready(function() {
         // upload train info into the database
 
         database.ref().push(newTrain);
-        console.log(newTrain.trainName);
-        console.log(newTrain.destination);
-        console.log(newTrain.trainTime);
-        console.log(newTrain.frequency);
+        console.log(newTrain.newtrainName);
+        console.log(newTrain.newdestination);
+        console.log(newTrain.newtrainTime);
+        console.log(newTrain.newfrequency);
 
-        alert("Train successfully added");
+        
 
         //clear all input fields
         $("#train-name-input").val("");

@@ -8,12 +8,10 @@ In this assignment, you'll create a train schedule application that incorporates
 When adding trains, administrators should be able to submit the following:
 
 -Train Name
-
 -Destination
-
 -First Train Time -- in military time
-
 -Frequency -- in minutes
+-Table with the minutes to arrival and next train time information updates every minute.
 
 
 Code this app to calculate when the next train will arrive; this should be relative to the current time.
@@ -22,3 +20,4 @@ Users from many different machines must be able to view same train times.
 Project Details:
 
 Technologies Used: HTML, CSS, jQuery, JavaScript, Firebase, and Material Design front-end component library for Bootstrap.
+
