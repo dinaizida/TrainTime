@@ -11,10 +11,14 @@ $("document").ready(function() {
     };
     firebase.initializeApp(config);
 
-    // GLOBAL var - to count trains entered into the database
+    // GLOBAL 
     var i=0;
     var getKey = "";
-
+    var newtrainName = "";
+    var newdestination = "";
+    var newtrainTime = "";
+    var newfrequency = "";
+    var newTrain = "";
     // refresh page every minute to show updated schedule
     setInterval(function() {
         location.reload(true); }, 60000);
@@ -37,8 +41,10 @@ $("document").ready(function() {
     $(document).on("click", ".delete", function(event){
         event.preventDefault();
         $(this).closest ('tr').remove();
-         console.log("this" + this );
-        getKey = $(this).parent().attr('id');
+         console.log("this from delet button" + this );
+         
+         getKey = $(this).attr('id');
+         
         database.ref().child(getKey).remove();
 
        
@@ -53,13 +59,13 @@ $("document").ready(function() {
         //grab the user input
        
         var newi = i;
-        var newtrainName = $("#train-name-input").val().trim();
-        var newdestination = $("#destination-input").val().trim();
-        var newtrainTime = $("#train-time-input").val().trim();
-        var newfrequency = $("#frequency-input").val().trim();
+        newtrainName = $("#train-name-input").val().trim();
+        newdestination = $("#destination-input").val().trim();
+        newtrainTime = $("#train-time-input").val().trim();
+        newfrequency = $("#frequency-input").val().trim();
 
         //create a local temporary object for holding form data
-        var newTrain = {
+        newTrain = {
             idata: newi,
             trainName: newtrainName,
             destination: newdestination,
@@ -87,10 +93,10 @@ $("document").ready(function() {
 
     //create a firebase event for adding train to database and a row in the HTML table
 
-    database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-        i++;
+    database.ref().on("child_added", function(childSnapshot,childKey) {
+        // i++;
         
-        console.log("prevChildKey   " +prevChildKey);
+        console.log("childKey   " +childKey);
         console.log("childSnapshot -- " + childSnapshot.val());
         
         var newi = childSnapshot.val().idata;
@@ -107,8 +113,7 @@ $("document").ready(function() {
         console.log(newfrequency);
 
         //calculations..
-        // var newfrequency = newfrequency;
-        // var firstTime = newtrainTime;
+        
         // to make sure first train time before the current time
         var firstTimeConverted = moment(newtrainTime, "HH:mm").subtract(1, "years");
         console.log(firstTimeConverted);
@@ -129,13 +134,12 @@ $("document").ready(function() {
         newtrainTime = moment(nextTrain).format("HH:mm:ss");
         console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm:ss"));
 
-    // add train data to the HTML table
-        //button to delete train
-     var btn = $("<button class = 'delete btn btn-raised btn-sm'>" + i + "</button>");
      
-     // render all database informaiton into the page table
-      var tr = $("<tr id=" + "'" + prevChildKey + "'" + ">");
-    //   tr.attr("id", prevChildKey);
+    var btn = $("<button id=" + "'" + childKey + "'" + " class = 'delete btn btn-raised btn-sm'>" +"x"+ "</button>" );
+     console.log("childKey after delete button line   " +childKey+ "train number" + i);
+     
+      var tr = $("<tr id=" + "'" + childKey + "'" + "  >");
+    
       tr.append(btn);
         tr.append("<td>" + newtrainName +
             "</td><td>" + newdestination +
@@ -145,6 +149,7 @@ $("document").ready(function() {
             "</td>"
         )
         $("#new-train").append(tr);
+        i++;
 
     });
 

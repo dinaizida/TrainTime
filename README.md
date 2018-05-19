@@ -3,19 +3,20 @@
 
 Project Description:
 
-In this assignment, you'll create a train schedule application that incorporates Firebase to host arrival and departure data. Your app will retrieve and manipulate this information with Moment.js. This website will provide up-to-date information about various trains, namely their arrival times and how many minutes remain until they arrive at their station.
+A train schedule application that incorporates Firebase to host arrival and departure data. This app retrieves and manipulates information with Moment.js. This website will provide up-to-date information about various trains, namely their arrival times and how many minutes remain until they arrive at their station.
 
-When adding trains, administrators should be able to submit the following:
+When adding trains, users are able to submit the following:
 
 -Train Name
 -Destination
--First Train Time -- in military time
+-First Train Departue Time -- in military time
 -Frequency -- in minutes
--Table with the minutes to arrival and next train time information updates every minute.
 
-
-Code this app to calculate when the next train will arrive; this should be relative to the current time.
+Code this app calculates when the next train will arrive; this is relative to the current time.
 Users from many different machines must be able to view same train times.
+
+- "minutes to arrival" and "next train time" information updates every minute.
+- added button to remove train from the schedule table.
 
 Project Details:
 
