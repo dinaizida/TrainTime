@@ -12,7 +12,7 @@ $("document").ready(function() {
     firebase.initializeApp(config);
 
     // GLOBAL 
-    var i=0;
+    var i = 0;
     var getKey = "";
     var newtrainName = "";
     var newdestination = "";
@@ -21,14 +21,15 @@ $("document").ready(function() {
     var newTrain = "";
     // refresh page every minute to show updated schedule
     setInterval(function() {
-        location.reload(true); }, 60000);
+        location.reload(true);
+    }, 60000);
 
     //current time for updating page and all calculations
     var currentTime = moment();
 
     function updateCurrentTime() {
         currentTime = moment().format("HH:mm:ss");
-       
+
         $("#currentTime").html("" + currentTime);
     };
 
@@ -38,26 +39,23 @@ $("document").ready(function() {
     setInterval(updateCurrentTime, 1000);
 
     /// remove train from page and firebase
-    $(document).on("click", ".delete", function(event){
+    $(document).on("click", ".delete", function(event) {
         event.preventDefault();
-        $(this).closest ('tr').remove();
-         console.log("this from delet button" + this );
-         
-         getKey = $(this).attr('id');
-         
+        $(this).closest('tr').remove();
+        console.log("this from delet button" + this);
+
+        getKey = $(this).attr('id');
+
         database.ref().child(getKey).remove();
 
-       
-
     });
-     
 
     //submit button
     $("#add-train-btn").on("click", function(event) {
         event.preventDefault();
-        
+
         //grab the user input
-       
+
         var newi = i;
         newtrainName = $("#train-name-input").val().trim();
         newdestination = $("#destination-input").val().trim();
@@ -75,14 +73,12 @@ $("document").ready(function() {
         // upload train info into the database
 
         database.ref().push(newTrain);
-        
+
         console.log(newTrain.newi);
         console.log(newTrain.newtrainName);
         console.log(newTrain.newdestination);
         console.log(newTrain.newtrainTime);
         console.log(newTrain.newfrequency);
-
-        
 
         //clear all input fields
         $("#train-name-input").val("");
@@ -93,18 +89,18 @@ $("document").ready(function() {
 
     //create a firebase event for adding train to database and a row in the HTML table
 
-    database.ref().on("child_added", function(childSnapshot,childKey) {
+    database.ref().on("child_added", function(childSnapshot, childKey) {
         // i++;
-        
-        console.log("childKey   " +childKey);
+
+        console.log("childKey   " + childKey);
         console.log("childSnapshot -- " + childSnapshot.val());
-        
+
         var newi = childSnapshot.val().idata;
         var newtrainName = childSnapshot.val().trainName;
         var newdestination = childSnapshot.val().destination;
         var newtrainTime = childSnapshot.val().trainTime;
         var newfrequency = childSnapshot.val().frequency;
-        
+
         // console.log(newdeleteBtn);
         console.log(newi);
         console.log(newtrainName);
@@ -113,7 +109,7 @@ $("document").ready(function() {
         console.log(newfrequency);
 
         //calculations..
-        
+
         // to make sure first train time before the current time
         var firstTimeConverted = moment(newtrainTime, "HH:mm").subtract(1, "years");
         console.log(firstTimeConverted);
@@ -134,13 +130,12 @@ $("document").ready(function() {
         newtrainTime = moment(nextTrain).format("HH:mm:ss");
         console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm:ss"));
 
-     
-    var btn = $("<button id=" + "'" + childKey + "'" + " class = 'delete btn btn-raised btn-sm'>" +"x"+ "</button>" );
-     console.log("childKey after delete button line   " +childKey+ "train number" + i);
-     
-      var tr = $("<tr id=" + "'" + childKey + "'" + "  >");
-    
-      tr.append(btn);
+        var btn = $("<button id=" + "'" + childKey + "'" + " class = 'delete btn btn-raised btn-sm'>" + "x" + "</button>");
+        console.log("childKey after delete button line   " + childKey + "train number" + i);
+
+        var tr = $("<tr id=" + "'" + childKey + "'" + "  >");
+
+        tr.append(btn);
         tr.append("<td>" + newtrainName +
             "</td><td>" + newdestination +
             "</td><td>" + newfrequency +
@@ -153,7 +148,4 @@ $("document").ready(function() {
 
     });
 
-
-   
-   
 });
