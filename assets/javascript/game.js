@@ -130,7 +130,7 @@ $("document").ready(function() {
         newtrainTime = moment(nextTrain).format("HH:mm:ss");
         console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm:ss"));
 
-        var btn = $("<button id=" + "'" + childKey + "'" + " class = 'delete btn btn-raised btn-sm'>" + "x" + "</button>");
+        var btn = $("<button id=" + "'" + childSnapshot.key + "'" + " class = 'delete btn btn-raised btn-sm'>" + "x" + "</button>");
         console.log("childKey after delete button line   " + childKey + "train number" + i);
 
         var tr = $("<tr id=" + "'" + childKey + "'" + "  >");
