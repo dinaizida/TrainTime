@@ -3,6 +3,8 @@
 
 Project Description:
 
+https://dinaizida.github.io/TrainTime/
+
 A train schedule application that incorporates Firebase to host arrival and departure data. This app retrieves and manipulates information with Moment.js. This website will provide up-to-date information about various trains, namely their arrival times and how many minutes remain until they arrive at their station.
 
 When adding trains, users are able to submit the following:
@@ -22,3 +24,4 @@ Project Details:
 
 Technologies Used: HTML, CSS, jQuery, JavaScript, Firebase, and Material Design front-end component library for Bootstrap.
 
+![Screen Shot](https://github.com/dinaizida/TrainTime/blob/master/assets/images/git.png)
