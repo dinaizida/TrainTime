@@ -22,6 +22,6 @@ Users from many different machines must be able to view same train times.
 
 Project Details:
 
-Technologies Used: HTML, CSS, jQuery, JavaScript, Firebase, and Material Design front-end component library for Bootstrap.
+Technologies Used: Firebase, HTML, CSS, jQuery, JavaScript, and Material Design front-end component library for Bootstrap.
 
 ![Screen Shot](https://github.com/dinaizida/TrainTime/blob/master/assets/images/git.png)
